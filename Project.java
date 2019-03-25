@@ -177,5 +177,85 @@ public class Project{
 		
 		printPuzzle(tiles);
 	}
+	
+	public static boolean checkIsMovable(Tile tile, Tile zeroTile) {
+		boolean isMovable = false;
+		String direction = "";
+		int tileLoc = tile.getLocation();
+		
+		if(tileLoc -1 == zeroTile.getLocation() && tileLoc != 3 && tileLoc != 6) { 
+			isMovable = true;
+			direction = "west";
+		}
+		else if(tileLoc + 1 == zeroTile.getLocation() && tileLoc != 2 && tileLoc != 5) {
+			isMovable = true;
+			direction = "east";
+		}
+		else if(tileLoc - 3 == zeroTile.getLocation()) {
+			isMovable = true;
+			direction = "north";
+		}
+		else if(tileLoc + 3 == zeroTile.getLocation()){
+			isMovable = true;
+			direction = "south";
+		}
+		
+		if(isMovable) {
+			System.out.println("" + tile.getValue() + " to the " + direction);
+		}
+		
+		return isMovable;
+	}
+	
+	public static int getTileHValue(Tile tile, Tile[] goalState) {
+		int tileRow;
+		int goalStateRow;
+		int hValue = 100;
+		tileRow = getTileRow(tile);
+		boolean foward = false;
+		
+		for(int j = 0; j < 9; j++) {
+			if(tile.getValue() == goalState[j].getValue()) {
+				if(tile.getLocation() < goalState[j].getLocation()) {
+					foward = true;
+				}
+				goalStateRow = getTileRow(goalState[j]);
+				if(tileRow == goalStateRow) {
+					hValue = (goalState[j].getLocation() - tile.getLocation());
+				}
+				else if((tileRow - goalStateRow) < 2 && (tileRow - goalStateRow) > -2) {
+					if(foward) {
+						hValue = ((tile.getLocation() + 3) - goalState[j].getLocation() + 1);
+					}
+					else {
+						hValue = ((tile.getLocation() - 3) - goalState[j].getLocation() + 1);
+					}
+				}
+				else if((tileRow - goalStateRow) < 3 && (tileRow - goalStateRow) > -3) {
+					if(foward) {
+						hValue = ((tile.getLocation() + 6) - goalState[j].getLocation() + 2);
+					}
+					else {
+						hValue = ((tile.getLocation() - 6) - goalState[j].getLocation() + 2);
+					}
+				}
+			}
+		}
+		return hValue;
+	}
+	
+	public static int getTileRow(Tile tile) {
+		int tileRow = 0;
+		if(tile.getLocation() == 0 || tile.getLocation() == 1 || tile.getLocation() == 2) {
+			tileRow = 1;
+		}
+		else if (tile.getLocation() == 3 || tile.getLocation() == 4 || tile.getLocation() == 5) {
+			tileRow = 2;
+		}
+		else if (tile.getLocation() == 6 || tile.getLocation() == 7 || tile.getLocation() == 8) {
+			tileRow = 3;
+		}
+		return tileRow;
+	}
 		
 }
