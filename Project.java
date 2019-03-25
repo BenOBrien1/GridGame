@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.*;
 
 public class Project{
-	static JFrame root = new JFrame();
-	static JButton [] buts = new JButton [9];
+	//static JFrame root = new JFrame();
+	//static JButton [] buts = new JButton [9];
 	public static boolean validate(String input){
 		
 			boolean flag = true;
@@ -36,132 +36,123 @@ public class Project{
 			return tiles;
 		}
 		
-	public static void printPuzzle(Tile[] tiles){
-		root.revalidate();
-		root.repaint();
+	public static void printPuzzle(Tile[] tiles)
+	{
+		JFrame root = new JFrame();
 		root.setTitle("8buzz");
 		Tile temp;
 
-        //JButton [] buts = new JButton [9];
-        for(int i=0;i < buts.length;i++)
-        {
-        		temp = tiles[i];
-	        	String t = Integer.toString(temp.getValue());
-	        	if(tiles[i].getValue() > 0){
-	        		buts[i] = new JButton(Integer.toString(temp.getValue()));
-	        	} else {
-	        		buts[i] = new JButton("");
-	        	}
-	        	System.out.println(temp.getValue());
-	        	t = Integer.toString(tiles[i].getValue());
-	        	buts[i].setPreferredSize(new Dimension(100, 100));
-    			root.add(buts[i]);
-        }
-        
-        buts[0].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			       	if(tiles[0].getValue() > 0){
-						root.removeAll();
-			       		isClicked(tiles, tiles[0]);
-			        	System.out.println(tiles[0].getValue());
-			       	}  
-			    }
-			});
-        buts[1].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[1].getValue() > 0){
-						root.removeAll();
-			       		isClicked(tiles, tiles[1]);
-			        	System.out.println(tiles[1].getValue());
-			       	}  
-			    }
-			});
-        buts[2].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[2].getValue() > 0){
-						root.removeAll();
-			       		isClicked(tiles, tiles[2]);
-			        	System.out.println(tiles[2].getValue());
-			       	}  
-			    }
-			});
-        buts[3].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[3].getValue() > 0){
-			       		isClicked(tiles, tiles[3]);
-			        	System.out.println(tiles[3].getValue());
-			       	}  
-			    }
-			});
-        buts[4].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[4].getValue() > 0){
-			       		isClicked(tiles, tiles[4]);
-			        	System.out.println(tiles[4].getValue());
-			       	}  
-			    }
-			});
-        buts[5].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[5].getValue() > 0){
-			       		isClicked(tiles, tiles[5]);
-			        	System.out.println(tiles[5].getValue());
-			       	}  
-			    }
-			});
-        buts[6].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[6].getValue() > 0){
-			       		isClicked(tiles, tiles[6]);
-			        	System.out.println(tiles[6].getValue());
-			       	}  
-			    }
-			});
-        buts[7].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[7].getValue() > 0){
-			       		isClicked(tiles, tiles[7]);
-			        	System.out.println(tiles[7].getValue());
-			       	}  
-			    }
-			});
-        buts[8].addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        if(tiles[8].getValue() > 0){
-			       		isClicked(tiles, tiles[8]);
-			        	System.out.println(tiles[8].getValue());
-			       	}  
-			    }
-			});
-       
-        root.setLayout(new GridLayout(3,3));  
-    	root.setSize(300,300);  
-    	root.setVisible(true); 
-		//root.removeAll();
-	}
-	
-	public static void isClicked(Tile [] tilesArr, Tile tile){
-        if( tile.isMovable ){
-            for( int t = 0; t < tilesArr.length; t++){
-                if( tilesArr[t].getValue() == 0 ){
-                    Tile temp = tilesArr[t];
-                    tilesArr[tile.getLocation()] = temp;
-                    tilesArr[t] = tile;
-                }
-            }
-        }
-		root.removeAll();
-		printPuzzle(tilesArr);
-    }	
+		JButton [] buts = new JButton [9];
+		for(int i=0;i < buts.length;i++)
+		{
+				temp = tiles[i];
+				String t = Integer.toString(temp.getValue());
+				if(tiles[i].getValue() > 0){
+					buts[i] = new JButton(Integer.toString(temp.getValue()));
+				} else {
+					buts[i] = new JButton("");
+				}
+				System.out.println(temp.getValue());
+				t = Integer.toString(tiles[i].getValue());
+				buts[i].setPreferredSize(new Dimension(100, 100));
+				root.add(buts[i]);
+		}
+
+		buts[0].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[0].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[0]);
+						System.out.println(tiles[0].getValue());
+					}  
+				    }
+				});
+		buts[1].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[1].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[1]);
+						System.out.println(tiles[1].getValue());
+					}  
+				    }
+				});
+		buts[2].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[2].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[2]);
+						System.out.println(tiles[2].getValue());
+					}  
+				    }
+				});
+		buts[3].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[3].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[3]);
+						System.out.println(tiles[3].getValue());
+					}  
+				    }
+				});
+		buts[4].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[4].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[4]);
+						System.out.println(tiles[4].getValue());
+					}  
+				    }
+				});
+		buts[5].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[5].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[5]);
+						System.out.println(tiles[5].getValue());
+					}  
+				    }
+				});
+		buts[6].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[6].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[6]);
+						System.out.println(tiles[6].getValue());
+					}  
+				    }
+				});
+		buts[7].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[7].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[7]);
+						System.out.println(tiles[7].getValue());
+					}  
+				    }
+				});
+		buts[8].addActionListener(new ActionListener() {
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					if(tiles[8].getValue() > 0){
+						root.dispose();
+						isClicked(tiles, tiles[8]);
+						System.out.println(tiles[8].getValue());
+					}  
+				    }
+				});
+
+		root.setLayout(new GridLayout(3,3));  
+		root.setSize(300,300);  
+		root.setVisible(true); 
+		}
 	
 	
 	
