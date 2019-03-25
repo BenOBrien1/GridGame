@@ -4,7 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.*;
 
 public class Project{
-	
+	static JFrame root = new JFrame();
+	static JButton [] buts = new JButton [9];
 	public static boolean validate(String input){
 		
 			boolean flag = true;
@@ -36,11 +37,12 @@ public class Project{
 		}
 		
 	public static void printPuzzle(Tile[] tiles){
-		JFrame root = new JFrame();
+		root.revalidate();
+		root.repaint();
 		root.setTitle("8buzz");
 		Tile temp;
 
-        JButton [] buts = new JButton [9];
+        //JButton [] buts = new JButton [9];
         for(int i=0;i < buts.length;i++)
         {
         		temp = tiles[i];
@@ -60,6 +62,7 @@ public class Project{
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
 			       	if(tiles[0].getValue() > 0){
+						root.removeAll();
 			       		isClicked(tiles, tiles[0]);
 			        	System.out.println(tiles[0].getValue());
 			       	}  
@@ -69,6 +72,7 @@ public class Project{
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
 			        if(tiles[1].getValue() > 0){
+						root.removeAll();
 			       		isClicked(tiles, tiles[1]);
 			        	System.out.println(tiles[1].getValue());
 			       	}  
@@ -78,6 +82,7 @@ public class Project{
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
 			        if(tiles[2].getValue() > 0){
+						root.removeAll();
 			       		isClicked(tiles, tiles[2]);
 			        	System.out.println(tiles[2].getValue());
 			       	}  
@@ -141,13 +146,22 @@ public class Project{
         root.setLayout(new GridLayout(3,3));  
     	root.setSize(300,300);  
     	root.setVisible(true); 
+		//root.removeAll();
 	}
 	
-	public static void isClicked(Tile [] tiles, Tile clicked){
-		
-		System.out.println(Integer.toString(clicked.getValue()));
-	}
-		
+	public static void isClicked(Tile [] tilesArr, Tile tile){
+        if( tile.isMovable ){
+            for( int t = 0; t < tilesArr.length; t++){
+                if( tilesArr[t].getValue() == 0 ){
+                    Tile temp = tilesArr[t];
+                    tilesArr[tile.getLocation()] = temp;
+                    tilesArr[t] = tile;
+                }
+            }
+        }
+		root.removeAll();
+		printPuzzle(tilesArr);
+    }	
 	
 	
 	
