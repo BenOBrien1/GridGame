@@ -10,29 +10,56 @@ public class Project{
 	public static void main(String [] args){
 		Tile [] startState;
 		Tile [] goalState;
-		String input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
-		startState = createArray(input);
-			
-		while(!validate(input)){
+		String input = "";
+		boolean validateCheck = false;
+		while(!validateCheck){
 			input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
-			startState = createArray(input);
+			validateCheck = validate(input);
 		}
+		startState = createArray(input);
 		
-		String input2 = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a Space to seperate each number.");
+		String input2 = "";
+		validateCheck = false;
+		while(!validateCheck){
+			input2 = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a space to seperate each number.");
+			validateCheck = validate(input2);
+		}
 		goalState = createArray(input2);
 		
-		while(!validate(input2)){
-			input = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a space to seperate each number.");
-			goalState = createArray(input);
+		Tile zeroTile = new Tile(0, 0);
+		
+		for(int j = 0; j < startState.length; j++) {
+			if(startState[j].getValue() == 0) {
+				zeroTile = startState[j];
+			}
 		}
+		int hFunction = 0;
+		
+		for(int i = 0; i < startState.length; i++) {
+			startState[i].setMovable(checkIsMovable(startState[i], zeroTile));
+			startState[i].setHValue(getTileHValue(startState[i], goalState));
+			if(startState[i].getMovable()) {
+				System.out.println("H Value is " + startState[i].getHValue());
+				hFunction = (hFunction + startState[i].getHValue());
+			}
+		}
+		System.out.println("\nH Function = " + hFunction);
+		
 		root.setSize(300,300);  
 		root.setVisible(true); 
 		root.setLocation(10, 200);
     		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		root.setTitle("8buzz");
-		printPuzzle(startState);
+    	boolean inGame = true;
+    	Tile[] gameTiles = startState;
+    	while(inGame) {
+		gameTiles = printPuzzle(gameTiles);
+    	}
+		
+		
 	}
 	
+	//Takes in a string and validates it.
 	public static boolean validate(String input){
 		
 			boolean flag = true;
@@ -62,9 +89,10 @@ public class Project{
 			}
 			return tiles;
 		}
-		
-	private static void printPuzzle(Tile[] tiles)
+	//Takes in an array of tile objects and outputs a grid.
+	private static Tile[] printPuzzle(Tile[] tiles)
 	{
+		Tile [] newTiles;
 		JPanel pane = new JPanel();
 		pane.setLayout(new GridLayout(3,3)); 
 		Tile temp;
@@ -85,121 +113,148 @@ public class Project{
 		buts[0].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[0].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[0]);
-						System.out.println(tiles[0].getValue());
-					}  
+						if(tiles[0].getValue() > 0){
+							if(tiles[0].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[0]);
+								//System.out.println(tiles[0].getValue());
+							}
+						}  
 				    }
 				});
 		buts[1].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[1].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[1]);
-						System.out.println(tiles[1].getValue());
-					}  
+						if(tiles[1].getValue() > 0){
+							if(tiles[1].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[1]);
+								//System.out.println(tiles[1].getValue());
+							}
+						}  
 				    }
 				});
 		buts[2].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[2].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[2]);
-						System.out.println(tiles[2].getValue());
-					}  
+						if(tiles[2].getValue() > 0){
+							if(tiles[2].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[2]);
+								//System.out.println(tiles[2].getValue());
+							}
+						}  
 				    }
 				});
 		buts[3].addActionListener(new ActionListener() {
 				    @Override
-				    public void actionPerformed(ActionEvent e) {
-					if(tiles[3].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[3]);
-						System.out.println(tiles[3].getValue());
-					}  
+					public void actionPerformed(ActionEvent e) {
+						if(tiles[3].getValue() > 0){
+							if(tiles[3].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[3]);
+								//System.out.println(tiles[3].getValue());
+							}
+						}  
 				    }
 				});
 		buts[4].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[4].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[4]);
-						System.out.println(tiles[4].getValue());
-					}  
+						if(tiles[4].getValue() > 0){
+							if(tiles[4].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[4]);
+								//System.out.println(tiles[4].getValue());
+							}
+						}  
 				    }
 				});
 		buts[5].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[5].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[5]);
-						System.out.println(tiles[5].getValue());
-					}  
+						if(tiles[5].getValue() > 0){
+							if(tiles[5].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[5]);
+								//System.out.println(tiles[5].getValue());
+							}
+						}  
 				    }
 				});
 		buts[6].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[6].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[6]);
-						System.out.println(tiles[6].getValue());
-					}  
+						if(tiles[6].getValue() > 0){
+							if(tiles[6].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[6]);
+								//System.out.println(tiles[6].getValue());
+							}
+						}  
 				    }
 				});
 		buts[7].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[7].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[7]);
-						System.out.println(tiles[7].getValue());
-					}  
+						if(tiles[7].getValue() > 0){
+							if(tiles[7].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[7]);
+								//System.out.println(tiles[7].getValue());
+							}
+						}  
 				    }
 				});
 		buts[8].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
-					if(tiles[8].getValue() > 0){
-						System.out.println("Click");
-						root.remove(pane);
-						isClicked(tiles, tiles[8]);
-						System.out.println(tiles[8].getValue());
-					}  
+						if(tiles[8].getValue() > 0){
+							if(tiles[8].getMovable()) {
+								//System.out.println("Click");
+								root.remove(pane);
+								isClicked(tiles, tiles[8]);
+								//System.out.println(tiles[8].getValue());
+							}
+						}  
 				    }
 				});
 		pane.setVisible(true); 
 		root.getContentPane().add(pane);
 		root.setVisible(true); 
+		return tiles;
 	}
-	
-	private static void isClicked(Tile [] tiles, Tile clicked)
+	//Takes in an array of tile and a single clicked tile and swaps the clicked tile with the zero tile in the array.
+	private static Tile[] isClicked(Tile [] tiles, Tile clicked)
 	{
-		Tile temp = tiles[0];
-		tiles[0] = tiles[8];
-		tiles[8] = temp;
-		System.out.println("Made it into isClicked");
+		Tile temp = new Tile(0,0);
+		int tileLocation = 0;
+		for(int i = 0; i < tiles.length; i++) {
+			if(tiles[i].getValue() == 0) {
+				temp = tiles[i];
+				tiles[i] = clicked;
+			}
+			if(clicked.getLocation() == i) {
+				tiles[i] = temp;
+			}
+		}
 
-		printPuzzle(tiles);
+		//printPuzzle(tiles);
+		
+		return tiles;
 	}
 	
 	
 	
-	
-	
+	//Takes in a tile and the zero tile, compares them and checks if the tile can be moved.
 	public static boolean checkIsMovable(Tile tile, Tile zeroTile) {
 		boolean isMovable = false;
 		String direction = "";
@@ -207,28 +262,28 @@ public class Project{
 		
 		if(tileLoc -1 == zeroTile.getLocation() && tileLoc != 3 && tileLoc != 6) { 
 			isMovable = true;
-			direction = "west";
+			direction = "west. ";
 		}
 		else if(tileLoc + 1 == zeroTile.getLocation() && tileLoc != 2 && tileLoc != 5) {
 			isMovable = true;
-			direction = "east";
+			direction = "east. ";
 		}
 		else if(tileLoc - 3 == zeroTile.getLocation()) {
 			isMovable = true;
-			direction = "north";
+			direction = "north.";
 		}
 		else if(tileLoc + 3 == zeroTile.getLocation()){
 			isMovable = true;
-			direction = "south";
+			direction = "south.";
 		}
 		
 		if(isMovable) {
-			System.out.println("" + tile.getValue() + " to the " + direction);
+			System.out.print("" + tile.getValue() + " can move to the " + direction + "\t");
 		}
 		
 		return isMovable;
 	}
-	
+	//Takes in a tile and the goal state, gets the h value of the tile.
 	public static int getTileHValue(Tile tile, Tile[] goalState) {
 		int tileRow;
 		int goalStateRow;
@@ -266,6 +321,7 @@ public class Project{
 		return hValue;
 	}
 	
+	//Takes in a tile and gets it's row in the grid.
 	public static int getTileRow(Tile tile) {
 		int tileRow = 0;
 		if(tile.getLocation() == 0 || tile.getLocation() == 1 || tile.getLocation() == 2) {
@@ -279,5 +335,6 @@ public class Project{
 		}
 		return tileRow;
 	}
+		
 		
 }
