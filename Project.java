@@ -92,7 +92,6 @@ public class Project{
 	//Takes in an array of tile objects and outputs a grid.
 	private static Tile[] printPuzzle(Tile[] tiles)
 	{
-		Tile [] newTiles;
 		JPanel pane = new JPanel();
 		pane.setLayout(new GridLayout(3,3)); 
 		Tile temp;
@@ -236,7 +235,6 @@ public class Project{
 	private static Tile[] isClicked(Tile [] tiles, Tile clicked)
 	{
 		Tile temp = new Tile(0,0);
-		int tileLocation = 0;
 		for(int i = 0; i < tiles.length; i++) {
 			if(tiles[i].getValue() == 0) {
 				temp = tiles[i];
