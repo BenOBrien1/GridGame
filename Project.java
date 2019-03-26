@@ -4,8 +4,35 @@ import java.awt.Dimension;
 import java.awt.event.*;
 
 public class Project{
-	//static JFrame root = new JFrame();
-	//static JButton [] buts = new JButton [9];
+	static JFrame root = new JFrame();
+	static JButton [] buts = new JButton [9];
+	
+	public static void main(String [] args){
+		Tile [] startState;
+		Tile [] goalState;
+		String input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
+		startState = createArray(input);
+			
+		while(!validate(input)){
+			input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
+			startState = createArray(input);
+		}
+		
+		String input2 = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a Space to seperate each number.");
+		goalState = createArray(input2);
+		
+		while(!validate(input2)){
+			input = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a space to seperate each number.");
+			goalState = createArray(input);
+		}
+		root.setSize(300,300);  
+		root.setVisible(true); 
+		root.setLocation(10, 200);
+    		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		root.setTitle("8buzz");
+		printPuzzle(startState);
+	}
+	
 	public static boolean validate(String input){
 		
 			boolean flag = true;
@@ -36,33 +63,31 @@ public class Project{
 			return tiles;
 		}
 		
-	public static void printPuzzle(Tile[] tiles)
+	private static void printPuzzle(Tile[] tiles)
 	{
-		JFrame root = new JFrame();
-		root.setTitle("8buzz");
+		JPanel pane = new JPanel();
+		pane.setLayout(new GridLayout(3,3)); 
 		Tile temp;
 
-		JButton [] buts = new JButton [9];
 		for(int i=0;i < buts.length;i++)
 		{
 				temp = tiles[i];
-				String t = Integer.toString(temp.getValue());
 				if(tiles[i].getValue() > 0){
 					buts[i] = new JButton(Integer.toString(temp.getValue()));
 				} else {
 					buts[i] = new JButton("");
 				}
-				System.out.println(temp.getValue());
-				t = Integer.toString(tiles[i].getValue());
+				//System.out.println(temp.getValue());
 				buts[i].setPreferredSize(new Dimension(100, 100));
-				root.add(buts[i]);
+				pane.add(buts[i]);
 		}
 
 		buts[0].addActionListener(new ActionListener() {
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[0].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[0]);
 						System.out.println(tiles[0].getValue());
 					}  
@@ -72,7 +97,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[1].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[1]);
 						System.out.println(tiles[1].getValue());
 					}  
@@ -82,7 +108,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[2].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[2]);
 						System.out.println(tiles[2].getValue());
 					}  
@@ -92,7 +119,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[3].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[3]);
 						System.out.println(tiles[3].getValue());
 					}  
@@ -102,7 +130,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[4].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[4]);
 						System.out.println(tiles[4].getValue());
 					}  
@@ -112,7 +141,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[5].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[5]);
 						System.out.println(tiles[5].getValue());
 					}  
@@ -122,7 +152,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[6].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[6]);
 						System.out.println(tiles[6].getValue());
 					}  
@@ -132,7 +163,8 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[7].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[7]);
 						System.out.println(tiles[7].getValue());
 					}  
@@ -142,41 +174,31 @@ public class Project{
 				    @Override
 				    public void actionPerformed(ActionEvent e) {
 					if(tiles[8].getValue() > 0){
-						root.dispose();
+						System.out.println("Click");
+						root.remove(pane);
 						isClicked(tiles, tiles[8]);
 						System.out.println(tiles[8].getValue());
 					}  
 				    }
 				});
-
-		root.setLayout(new GridLayout(3,3));  
-		root.setSize(300,300);  
+		pane.setVisible(true); 
+		root.getContentPane().add(pane);
 		root.setVisible(true); 
-		}
-	
-	
-	
-	public static void main(String [] args){
-		Tile [] startState;
-		Tile [] goalState;
-		String input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
-		startState = createArray(input);
-			
-		while(!validate(input)){
-			input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
-			startState = createArray(input);
-		}
-		
-		String input2 = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a Space to seperate each number.");
-		goalState = createArray(input2);
-		
-		while(!validate(input2)){
-			input = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a space to seperate each number.");
-			goalState = createArray(input);
-		}
-		
-		printPuzzle(startState);
 	}
+	
+	private static void isClicked(Tile [] tiles, Tile clicked)
+	{
+		Tile temp = tiles[0];
+		tiles[0] = tiles[8];
+		tiles[8] = temp;
+		System.out.println("Made it into isClicked");
+
+		printPuzzle(tiles);
+	}
+	
+	
+	
+	
 	
 	public static boolean checkIsMovable(Tile tile, Tile zeroTile) {
 		boolean isMovable = false;
