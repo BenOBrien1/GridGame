@@ -293,7 +293,12 @@ public class Project{
 				}
 				goalStateRow = getTileRow(goalState[j]);
 				if(tileRow == goalStateRow) {
-					hValue = (goalState[j].getLocation() - tile.getLocation());
+					if(foward) {
+						hValue = (goalState[j].getLocation() - tile.getLocation());
+					}
+					else {
+						hValue = (tile.getLocation() - goalState[j].getLocation());
+					}
 				}
 				else if((tileRow - goalStateRow) < 2 && (tileRow - goalStateRow) > -2) {
 					if(foward) {
