@@ -157,16 +157,25 @@ public class Project{
 	
 	
 	public static void main(String [] args){
-		Tile [] tiles;
-		String input = JOptionPane.showInputDialog(null,"Enter Numbers. Use a space to seperate each number.");
-		tiles = createArray(input);
+		Tile [] startState;
+		Tile [] goalState;
+		String input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
+		startState = createArray(input);
 			
 		while(!validate(input)){
-			input = JOptionPane.showInputDialog(null,"Enter Numbers. Use a space to seperate each number.");
-			tiles = createArray(input);
+			input = JOptionPane.showInputDialog(null,"Enter The Start State. Use a space to seperate each number.");
+			startState = createArray(input);
 		}
 		
-		printPuzzle(tiles);
+		String input2 = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a Space to seperate each number.");
+		goalState = createArray(input2);
+		
+		while(!validate(input2)){
+			input = JOptionPane.showInputDialog(null,"Enter The Goal State. Use a space to seperate each number.");
+			goalState = createArray(input);
+		}
+		
+		printPuzzle(startState);
 	}
 	
 	public static boolean checkIsMovable(Tile tile, Tile zeroTile) {
