@@ -50,11 +50,8 @@ public class Project{
 		root.setLocation(10, 200);
     		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		root.setTitle("8buzz");
-    	boolean inGame = true;
-    	Tile[] gameTiles = startState;
-    	while(inGame) {
-		gameTiles = printPuzzle(gameTiles);
-    	}
+   
+		printPuzzle(startState);
 		
 		
 	}
