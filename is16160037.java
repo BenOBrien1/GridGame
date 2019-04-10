@@ -1,9 +1,16 @@
+// Adam Nolan  	16160037
+// Ben O'Brien 	 16187555
+// Brian Kummer   16190319
+// Dillon Rosenkranz 16159144
+
+//Tile class included in the email. Please have both files in the same directory!
+
 import javax.swing.*; 
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
 
-public class Project{
+public class is16160037{
 	static JFrame root = new JFrame();
 	static JButton [] buts = new JButton [9];
 	
@@ -35,6 +42,7 @@ public class Project{
 		}
 		int hFunction = 0;
 		
+		//Print out h value
 		for(int i = 0; i < startState.length; i++) {
 			startState[i].setMovable(checkIsMovable(startState[i], zeroTile));
 			startState[i].setHValue(getTileHValue(startState[i], goalState));
@@ -43,20 +51,20 @@ public class Project{
 				hFunction = (hFunction + startState[i].getHValue());
 			}
 		}
-		System.out.println("\nH Function = " + hFunction);
+		System.out.println("\nH Function of movable tiles = " + hFunction);
 		
 		root.setSize(300,300);  
 		root.setVisible(true); 
 		root.setLocation(10, 200);
-    		root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    		root.setTitle("8buzz");
-   
-		printPuzzle(startState);
+    	root.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	root.setTitle("8buzz");
+    	
+		printPuzzle(startState, true);
 		
 		
 	}
 	
-	//Takes in a string and validates it.
+	//Takes in a strin and validates it, returning a boolean.
 	public static boolean validate(String input){
 		
 			boolean flag = true;
@@ -86,8 +94,9 @@ public class Project{
 			}
 			return tiles;
 		}
-	//Takes in an array of tile objects and outputs a grid.
-	private static Tile[] printPuzzle(Tile[] tiles)
+		
+	//Takes in an array or tile objects and prints a grid of tiles to a pane.
+	private static Tile[] printPuzzle(Tile[] tiles, boolean visible)
 	{
 		JPanel pane = new JPanel();
 		pane.setLayout(new GridLayout(3,3)); 
@@ -105,151 +114,15 @@ public class Project{
 				buts[i].setPreferredSize(new Dimension(100, 100));
 				pane.add(buts[i]);
 		}
-
-		buts[0].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[0].getValue() > 0){
-							if(tiles[0].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[0]);
-								//System.out.println(tiles[0].getValue());
-							}
-						}  
-				    }
-				});
-		buts[1].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[1].getValue() > 0){
-							if(tiles[1].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[1]);
-								//System.out.println(tiles[1].getValue());
-							}
-						}  
-				    }
-				});
-		buts[2].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[2].getValue() > 0){
-							if(tiles[2].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[2]);
-								//System.out.println(tiles[2].getValue());
-							}
-						}  
-				    }
-				});
-		buts[3].addActionListener(new ActionListener() {
-				    @Override
-					public void actionPerformed(ActionEvent e) {
-						if(tiles[3].getValue() > 0){
-							if(tiles[3].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[3]);
-								//System.out.println(tiles[3].getValue());
-							}
-						}  
-				    }
-				});
-		buts[4].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[4].getValue() > 0){
-							if(tiles[4].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[4]);
-								//System.out.println(tiles[4].getValue());
-							}
-						}  
-				    }
-				});
-		buts[5].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[5].getValue() > 0){
-							if(tiles[5].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[5]);
-								//System.out.println(tiles[5].getValue());
-							}
-						}  
-				    }
-				});
-		buts[6].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[6].getValue() > 0){
-							if(tiles[6].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[6]);
-								//System.out.println(tiles[6].getValue());
-							}
-						}  
-				    }
-				});
-		buts[7].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[7].getValue() > 0){
-							if(tiles[7].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[7]);
-								//System.out.println(tiles[7].getValue());
-							}
-						}  
-				    }
-				});
-		buts[8].addActionListener(new ActionListener() {
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-						if(tiles[8].getValue() > 0){
-							if(tiles[8].getMovable()) {
-								//System.out.println("Click");
-								root.remove(pane);
-								isClicked(tiles, tiles[8]);
-								//System.out.println(tiles[8].getValue());
-							}
-						}  
-				    }
-				});
-		pane.setVisible(true); 
-		root.getContentPane().add(pane);
-		root.setVisible(true); 
-		return tiles;
-	}
-	//Takes in an array of tile and a single clicked tile and swaps the clicked tile with the zero tile in the array.
-	private static Tile[] isClicked(Tile [] tiles, Tile clicked)
-	{
-		Tile temp = new Tile(0,0);
-		for(int i = 0; i < tiles.length; i++) {
-			if(tiles[i].getValue() == 0) {
-				temp = tiles[i];
-				tiles[i] = clicked;
-			}
-			if(clicked.getLocation() == i) {
-				tiles[i] = temp;
-			}
-		}
-
-		//printPuzzle(tiles);
 		
+		pane.setVisible(visible); 
+		root.getContentPane().add(pane);
+		root.setVisible(visible); 
 		return tiles;
 	}
 	
-	
-	
-	//Takes in a tile and the zero tile, compares them and checks if the tile can be moved.
+	//Takes in a tile and the empty tile, then compares them and checks if 
+	// the tile can be moved. Returns a boolean.
 	public static boolean checkIsMovable(Tile tile, Tile zeroTile) {
 		boolean isMovable = false;
 		String direction = "";
@@ -278,7 +151,8 @@ public class Project{
 		
 		return isMovable;
 	}
-	//Takes in a tile and the goal state, gets the h value of the tile.
+	
+	//Takes in a tile and the goal state, gets the h-value of the tile.
 	public static int getTileHValue(Tile tile, Tile[] goalState) {
 		int tileRow;
 		int goalStateRow;
@@ -320,7 +194,6 @@ public class Project{
 		}
 		return hValue;
 	}
-	
 	//Takes in a tile and gets it's row in the grid.
 	public static int getTileRow(Tile tile) {
 		int tileRow = 0;
