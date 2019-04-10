@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class is16160037{
 	static JFrame root = new JFrame();
@@ -40,7 +41,6 @@ public class is16160037{
 				zeroTile = startState[j];
 			}
 		}
-		int hFunction = 0;
 		
 		//Print out h value
 		for(int i = 0; i < startState.length; i++) {
@@ -48,10 +48,9 @@ public class is16160037{
 			startState[i].setHValue(getTileHValue(startState[i], goalState));
 			if(startState[i].getMovable()) {
 				System.out.println("H Value is " + startState[i].getHValue());
-				hFunction = (hFunction + startState[i].getHValue());
 			}
 		}
-		System.out.println("\nH Function of movable tiles = " + hFunction);
+		System.out.println("\nH Function of movable tiles = " + getTotalHValue(startState, goalState));
 		
 		root.setSize(300,300);  
 		root.setVisible(true); 
@@ -60,6 +59,31 @@ public class is16160037{
     	root.setTitle("8buzz");
     	
 		printPuzzle(startState, true);
+		
+		ArrayList<Tile[]> open = new ArrayList<Tile[]>();
+		ArrayList<Tile[]> closed = new ArrayList<Tile[]>();
+		
+		while(startState != goalState) {
+			int[] hValues;
+			int count = 0;
+			//Created open AL with all possible states.
+			for(int x = 0; x < startState.length; x++) {
+				if(startState[x].getMovable()) {
+					open.add(swapTiles(startState, startState[x]));
+					count++;
+				}
+			}
+			hValues = new int[count];
+			count = 0;
+			for(int y = 0; y < open.size(); y ++) {
+				
+				hValues[count] = getTotalHValue(open.get(y), goalState);
+				count++;
+			}
+			int lowestHValueLocation = getMinValueLocation(hValues);
+			//now open.get(lowestHValueLocation) is the most efficient next state
+			
+		}
 		
 		
 	}
@@ -194,6 +218,18 @@ public class is16160037{
 		}
 		return hValue;
 	}
+	
+	public static int getTotalHValue(Tile[] tiles, Tile[] goalState) {
+		int totalH = 0;
+		for(int i = 0; i < tiles.length; i++) {
+			if(tiles[i].getMovable()) {
+				totalH+= getTileHValue(tiles[i], goalState);
+			}
+		}
+		return totalH;
+	}
+	
+	
 	//Takes in a tile and gets it's row in the grid.
 	public static int getTileRow(Tile tile) {
 		int tileRow = 0;
@@ -208,6 +244,34 @@ public class is16160037{
 		}
 		return tileRow;
 	}
+	
+	//Takes in a array of tiles and the tile to swap, swaps tile with zero tile and returns new array.
+	public static Tile[] swapTiles(Tile[] tiles, Tile tileToSwap){
+		Tile temp = tileToSwap;
+		Tile zeroTile = new Tile(0, 0);
+		for(int i = 0; i < tiles.length; i++){
+			if(tiles[i].getValue() == 0){
+				tiles[i] = tileToSwap;
+			}
+		}
+		tiles[temp.getLocation()] = zeroTile;
+		return tiles;
+	}
+	
+	//Takes in an array of ints and return the minimum value's location
+	public static int getMinValueLocation(int[] numbers) {
+		int minVal = numbers[0];
+		for(int i = 0; i < numbers.length; i++) {
+			if(numbers[i] < minVal) {
+				minVal = numbers[i];
+			}
+		}
+		for(int x = 0; x < numbers.length; x++) {
+			if(numbers[x] == minVal) {
+				return x;
+			}
+		}
+		return -1;
 		
-		
+	}
 }
