@@ -1,3 +1,4 @@
+
 public class Tile {
 	int value;
 	boolean isMovable;;
@@ -24,7 +25,7 @@ public class Tile {
 		this.value = value;
 	}
 
-	public boolean isMovable() {
+	public boolean getMovable() {
 		return isMovable;
 	}
 
