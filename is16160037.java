@@ -140,6 +140,9 @@ public class is16160037{
 			closed.add(currentState);
 			printer.add(currentState);
 			
+			
+			//Not working. Need to print the shortest path. When we go back to a previous state,
+			//remove all the states after it,(only in printer), then print them to console at the end. 
 			for(int yy = 0; yy < printer.size(); yy++){
 				if(compareTileArrays(printer.get(yy), currentState)){
 					System.out.println("ln: " + printer.size());
