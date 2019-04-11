@@ -61,12 +61,17 @@ public class is16160037{
 		printPuzzle(startState, true);
 		
 		ArrayList<Tile[]> open = new ArrayList<Tile[]>();
+		ArrayList<Integer> openGValues = new ArrayList<Integer>();
 		ArrayList<Tile[]> closed = new ArrayList<Tile[]>();
+		ArrayList<Tile[]> printer = new ArrayList<Tile[]>();
 		Tile[] currentState = startState;
+		int gValueCounter = 0;
 		
-		for(int test = 0; test < 6; test++){ // test loop
+		int gValue = 1;
 		
-		//while(!(compareTileArrays(currentState, goalState))) {
+		//for(int test = 0; test < 10; test++){ // test loop
+		
+		while(!(compareTileArrays(currentState, goalState))) {
 			int[] hValues;
 			/*for(int i = 0; i < currentState.length; i++) {
 				currentState[i].setMovable(checkIsMovable(currentState[i], zeroTile));
@@ -91,7 +96,6 @@ public class is16160037{
 						newTile.setMovable(cMov);
 						temp[j] = newTile;
 					}
-				
 					
 					
 					temp = swapTiles(temp[x], zeroTiler, temp);
@@ -107,32 +111,64 @@ public class is16160037{
 						newTile2.setMovable(cMov);
 						temper[o] = newTile2;
 					}
+					boolean check = true;
 					
-					open.add(temper);
-					
+					for(int iter = 0; iter < closed.size() && check; iter++){
+						if(compareTileArrays(temper, closed.get(iter)) || compareTileArrays(temper, currentState)){
+								check = false;
+						}
+					}
+					if(check){
+						open.add(temper);
+						openGValues.add(gValueCounter);
+					}
 				}
 			}
 			hValues = new int[open.size()];
+			int[] fValues = new int[open.size()];
 			for(int y = 0; y < open.size(); y ++) {
+				
+				//for(int qq = 0; qq < 9; qq++){
+				//	System.out.print("" + open.get(y)[qq].getValue() + " ");
+				//}
+				
 					hValues[y] = getTotalHValue(open.get(y), goalState);
-					System.out.println("hval: " + hValues[y]);
+					fValues[y] = (hValues[y] + openGValues.get(y));
+					//System.out.println("fv: " + fValues[y]);
 			}
-			int lowestHValueLocation = getMinValueLocation(hValues);
+			int lowestFValueLocation = getMinValueLocation(fValues);
+			
+			
 			//now open.get(lowestHValueLocation) is the most efficient next state.
 			
 			closed.add(currentState);
+			printer.add(currentState);
 			
-			currentState = open.get(lowestHValueLocation);
-			for(int pp = 0; pp < 9; pp++){
-				System.out.println("cs: " + currentState[pp].getValue());
+			for(int yy = 0; yy < printer.size(); yy++){
+				if(compareTileArrays(printer.get(yy), currentState)){
+					System.out.println("ln: " + printer.size());
+					for(int zz = printer.size()-1; zz > yy; zz--){
+						printer.remove(zz);
+						System.out.println(zz);
+					}
+					System.out.println("ln: " + printer.size());
+					yy = printer.size();
+				}
 			}
-			open.clear();
-			System.out.println(".");
+			
+			currentState = open.get(lowestFValueLocation);
 			
 			
-		//}
-	} // temp loop for testing
-		printClosedStates(closed);
+			open.remove(lowestFValueLocation);
+			openGValues.remove(lowestFValueLocation);
+			
+			gValueCounter++;
+		}
+
+		printClosedStates(printer);
+		
+		
+		printClosedStates(currentState);
 		//printClosedStates(closed);
 
 	}
@@ -149,6 +185,17 @@ public class is16160037{
             System.out.println("");
         }
     }
+	public static void printClosedStates(Tile[] closed){
+
+            for(int j = 0; j < 9; j++){
+                if((j % 3) == 0){
+                    System.out.print("\n");
+				}
+                System.out.print(closed[j].getValue() + " ");
+            }
+            System.out.println("");
+    }
+	
 	
 	//Takes in 2 arrays of tiles and checks if there are the same
 	public static boolean compareTileArrays(Tile [] a, Tile [] b){
@@ -278,18 +325,18 @@ public class is16160037{
 				}
 				else if((tileRow - goalStateRow) < 2 && (tileRow - goalStateRow) > -2) {
 					if(foward) {
-						hValue = ((tile.getLocation() + 3) - goalState[j].getLocation() + 1);
+						hValue = ((goalState[j].getLocation() + 1) - (tile.getLocation() + 3));
 					}
 					else {
-						hValue = ((goalState[j].getLocation() + 1) - (tile.getLocation() - 3));
+						hValue = (((tile.getLocation() - 3) -(goalState[j].getLocation())) + 1);
 					}
 				}
 				else if((tileRow - goalStateRow) < 3 && (tileRow - goalStateRow) > -3) {
 					if(foward) {
-						hValue = ((tile.getLocation() + 6) - goalState[j].getLocation() + 2);
+						hValue = ((goalState[j].getLocation() + 2) - (tile.getLocation() + 6));
 					}
 					else {
-						hValue = ((goalState[j].getLocation() + 2) - (tile.getLocation() - 6));
+						hValue = (((tile.getLocation() - 6) - (goalState[j].getLocation()) + 2));
 					}
 				}
 			}
@@ -301,7 +348,6 @@ public class is16160037{
 		int totalH = 0;
 		for(int i = 0; i < tiles.length; i++) {
 			if(tiles[i].getMovable()) {
-				System.out.println("movable of new: " + tiles[i].getValue());
 				totalH += getTileHValue(tiles[i], goalState);
 			}
 		}
@@ -356,4 +402,5 @@ public class is16160037{
 		return -1;
 		
 	}
+	
 }
