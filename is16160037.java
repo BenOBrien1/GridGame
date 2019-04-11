@@ -62,31 +62,93 @@ public class is16160037{
 		
 		ArrayList<Tile[]> open = new ArrayList<Tile[]>();
 		ArrayList<Tile[]> closed = new ArrayList<Tile[]>();
-		
-		while(startState != goalState) {
+		Tile[] currentState = startState;
+	
+		//while(!(compareTileArrays(currentState, goalState))) {
 			int[] hValues;
-			int count = 0;
-			//Created open AL with all possible states.
-			for(int x = 0; x < startState.length; x++) {
-				if(startState[x].getMovable()) {
-					open.add(swapTiles(startState, startState[x]));
-					count++;
+			for(int i = 0; i < currentState.length; i++) {
+				currentState[i].setMovable(checkIsMovable(currentState[i], zeroTile));
+			}
+			
+			
+			Tile[] temp = new Tile[9];
+			for(int j = 0; j < 9; j++){
+				temp[j] = currentState[j];
+				if(temp[j].getMovable()) {
+				System.out.println("movable1:"  + temp[j].getValue());
 				}
 			}
-			hValues = new int[count];
-			count = 0;
+			
+			Tile zeroTiler = new Tile(0,0);
+				for(int i = 0; i < currentState.length ; i++){
+						if(currentState[i].getValue() == 0)
+							zeroTiler = currentState[i];
+					}	
+			//Created open AL with all possible states.
+			for(int x = 0; x < currentState.length; x++) {
+				for(int k = 0; k < 9; k++){
+			}
+				if(temp[x].getMovable()) {
+					System.out.println("movable:"  + temp[x].getValue());
+					temp = swapTiles(temp[x], zeroTiler, temp);
+					for(int l = 0; l<0; l++){
+						System.out.println("temp val: " + temp[l].getValue());
+					}
+					open.add(temp);
+				}
+			}
+			hValues = new int[open.size()];
 			for(int y = 0; y < open.size(); y ++) {
-				
-				hValues[count] = getTotalHValue(open.get(y), goalState);
-				count++;
+					hValues[y] = getTotalHValue(open.get(y), goalState);
+					System.out.println("hval: " + hValues[y]);
 			}
 			int lowestHValueLocation = getMinValueLocation(hValues);
-			//now open.get(lowestHValueLocation) is the most efficient next state
+			//now open.get(lowestHValueLocation) is the most efficient next state.
 			
-		}
+			closed.add(currentState);
+//			for(int p = 0; p < currentState.length; p++) {
+//				System.out.print(currentState[p].getValue());
+//			}
+//			System.out.println("\n");
+//			for(int p = 0; p < currentState.length; p++) {
+//				System.out.print(currentState[p].getValue());
+//			}
+//			System.out.println("\n");
+			
+			currentState = open.get(lowestHValueLocation);
+
+		//}
 		
-		
+		printClosedStates(closed);
+
 	}
+	//Takes in arrayList and prints the grid
+	public static void printClosedStates(ArrayList<Tile[]> closed){
+
+        for(int i = 0 ; i < closed.size() ; i++){
+            for(int j = 0; j < 9; j++){
+                if((j % 3) == 0){
+                    System.out.print("\n");
+				}
+                System.out.print((closed.get(i))[j].getValue() + " ");
+            }
+            System.out.println("");
+        }
+    }
+	
+	//Takes in 2 arrays of tiles and checks if there are the same
+	public static boolean compareTileArrays(Tile [] a, Tile [] b){
+        boolean flag = true;
+
+        for(int i = 0; i < a.length ; i++){
+            while(flag){
+                if(a[i].getValue() != b[i].getValue()){
+                    flag = false;
+				}
+            }
+        }
+        return flag;
+    }
 	
 	//Takes in a strin and validates it, returning a boolean.
 	public static boolean validate(String input){
@@ -152,6 +214,10 @@ public class is16160037{
 		String direction = "";
 		int tileLoc = tile.getLocation();
 		
+		if(tile.getValue() == 0){
+			return false;
+		}
+		
 		if(tileLoc -1 == zeroTile.getLocation() && tileLoc != 3 && tileLoc != 6) { 
 			isMovable = true;
 			direction = "west. ";
@@ -169,9 +235,10 @@ public class is16160037{
 			direction = "south.";
 		}
 		
-		if(isMovable) {
-			System.out.print("" + tile.getValue() + " can move to the " + direction + "\t");
-		}
+		//if(isMovable) {
+		//	System.out.print("" + tile.getValue() + " can move to the " + direction + "\t");
+		//}
+		
 		
 		return isMovable;
 	}
@@ -203,7 +270,7 @@ public class is16160037{
 						hValue = ((tile.getLocation() + 3) - goalState[j].getLocation() + 1);
 					}
 					else {
-						hValue = ((tile.getLocation() - 3) - goalState[j].getLocation() + 1);
+						hValue = ((goalState[j].getLocation() + 1) - (tile.getLocation() - 3));
 					}
 				}
 				else if((tileRow - goalStateRow) < 3 && (tileRow - goalStateRow) > -3) {
@@ -211,7 +278,7 @@ public class is16160037{
 						hValue = ((tile.getLocation() + 6) - goalState[j].getLocation() + 2);
 					}
 					else {
-						hValue = ((tile.getLocation() - 6) - goalState[j].getLocation() + 2);
+						hValue = ((goalState[j].getLocation() + 2) - (tile.getLocation() - 6));
 					}
 				}
 			}
@@ -223,7 +290,7 @@ public class is16160037{
 		int totalH = 0;
 		for(int i = 0; i < tiles.length; i++) {
 			if(tiles[i].getMovable()) {
-				totalH+= getTileHValue(tiles[i], goalState);
+				totalH += getTileHValue(tiles[i], goalState);
 			}
 		}
 		return totalH;
@@ -246,16 +313,17 @@ public class is16160037{
 	}
 	
 	//Takes in a array of tiles and the tile to swap, swaps tile with zero tile and returns new array.
-	public static Tile[] swapTiles(Tile[] tiles, Tile tileToSwap){
-		Tile temp = tileToSwap;
-		Tile zeroTile = new Tile(0, 0);
-		for(int i = 0; i < tiles.length; i++){
-			if(tiles[i].getValue() == 0){
-				tiles[i] = tileToSwap;
+	public static Tile[] swapTiles(Tile tileToSwap, Tile zeroTile1, Tile [] temp){
+        int zeroLocation = zeroTile1.getLocation();
+        int tileLocation = tileToSwap.getLocation();
+        temp[zeroLocation] = tileToSwap;
+        temp[tileLocation] = zeroTile1;
+
+		for(int i = 0; i < temp.length; i++) {
+				temp[i].setMovable(checkIsMovable(temp[i], zeroTile1));
 			}
-		}
-		tiles[temp.getLocation()] = zeroTile;
-		return tiles;
+			
+		return temp;
 	}
 	
 	//Takes in an array of ints and return the minimum value's location
