@@ -128,13 +128,9 @@ public class is16160037{
 			int[] fValues = new int[open.size()];
 			for(int y = 0; y < open.size(); y ++) {
 				
-				//for(int qq = 0; qq < 9; qq++){
-				//	System.out.print("" + open.get(y)[qq].getValue() + " ");
-				//}
-				
 					hValues[y] = getTotalHValue(open.get(y), goalState);
 					fValues[y] = (hValues[y] + openGValues.get(y));
-					//System.out.println("fv: " + fValues[y]);
+
 			}
 			int lowestFValueLocation = getMinValueLocation(fValues);
 			
@@ -254,7 +250,7 @@ public class is16160037{
 				} else {
 					buts[i] = new JButton("");
 				}
-				//System.out.println(temp.getValue());
+
 				buts[i].setPreferredSize(new Dimension(100, 100));
 				pane.add(buts[i]);
 		}
